@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace C11Ex03_Iterator
+{
+    public class Primes
+    {
+        private long min;
+        private long max;
+
+        public Primes() : this(2, 100)
+        {
+        }
+
+        public Primes(long minimum, long maximum)
+        {
+            if (minimum < 2)
+                min = 2;
+            else
+                min = minimum;
+
+            if (maximum < min)
+                max = min;
+            else
+                max = maximum;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            for (long possiblePrime = min; possiblePrime <= max; possiblePrime++)
+            {
+                bool isPrime = true;
+                for (long possibleFactor = 2; possibleFactor <= (long)Math.Sqrt(possiblePrime); possibleFactor++)
+                {
+                    long remainderAfterDivision = possiblePrime % possibleFactor;
+                    if (remainderAfterDivision == 0)
+                    {
+                        isPrime = false;
+                        break;
+                    }
+                }
+                if (isPrime)
+                {
+                    yield return possiblePrime;
+                }
+            }
+        }
+    }
+}
